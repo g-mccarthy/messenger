@@ -45,12 +45,10 @@
             <!-- artifactId>jersey-container-servlet</artifactId -->
             <!--  adding another comment -->
         </dependency>
-        <!-- uncomment this to get JSON support
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
         </dependency>
-        -->
     </dependencies>
     <properties>
         <jersey.version>2.19</jersey.version>
