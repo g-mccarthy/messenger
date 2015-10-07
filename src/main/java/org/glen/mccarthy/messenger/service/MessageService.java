@@ -24,7 +24,6 @@ public class MessageService {
 		return messages.get(id);
 	}
 	
-	//comment
 	public Message addMessage(Message message){
 		message.setId(messages.size() + 1);
 		messages.put(message.getId(), message);
