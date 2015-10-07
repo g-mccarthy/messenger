@@ -17,34 +17,30 @@ import org.glen.mccarthy.messenger.model.Message;
 import org.glen.mccarthy.messenger.service.MessageService;
 
 @Path("/messages")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class MessageResource {
 	
 	MessageService service = new MessageService();
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<Message> getMessages(){
 		return service.getAllMessages();
 	}
 	
 	@GET
 	@Path("/{messageId}")
-	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId")long messageId){
 		return service.getMessage(messageId);
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Message addMessage(Message message){
 		return service.addMessage(message);
 	}
 	
 	@PUT
 	@Path("/{messageId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Message updateMessage(@PathParam("messageId")long id, Message message){
 		message.setId(id);
 		return service.updateMessage(message);
@@ -52,8 +48,6 @@ public class MessageResource {
 	
 	@DELETE
 	@Path("/{messageId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public void removeMessage(@PathParam("messageId")long id){
 		service.removeMessage(id);
 	}
