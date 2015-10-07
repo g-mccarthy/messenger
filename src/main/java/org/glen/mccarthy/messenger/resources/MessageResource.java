@@ -4,6 +4,7 @@ package org.glen.mccarthy.messenger.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -47,5 +48,13 @@ public class MessageResource {
 	public Message updateMessage(@PathParam("messageId")long id, Message message){
 		message.setId(id);
 		return service.updateMessage(message);
+	}
+	
+	@DELETE
+	@Path("/{messageId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void removeMessage(@PathParam("messageId")long id){
+		service.removeMessage(id);
 	}
 }
