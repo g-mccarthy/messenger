@@ -3,6 +3,7 @@ package org.glen.mccarthy.messenger.resources;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,6 +16,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.glen.mccarthy.messenger.model.Message;
+import org.glen.mccarthy.messenger.resources.beans.MessageFilterBean;
 import org.glen.mccarthy.messenger.service.MessageService;
 
 @Path("/messages")
@@ -25,13 +27,11 @@ public class MessageResource {
 	MessageService service = new MessageService();
 
 	@GET
-	public List<Message> getMessages(@QueryParam("year")int year, 
-									@QueryParam("start")Integer start,
-									@QueryParam("size")Integer size){
-		if(year > 0)
-			return service.getAllMessagesForYear(year);
-		if(start != null && size != null)
-			return service.getAllMessagesPaginated(start, size);
+	public List<Message> getMessages(@BeanParam MessageFilterBean bean){
+		if(bean.getYear() > 0)
+			return service.getAllMessagesForYear(bean.getYear());
+		if(bean.getStart() != null && bean.getSize() != null)
+			return service.getAllMessagesPaginated(bean.getStart(), bean.getSize());
 		return service.getAllMessages();
 	}
 	
