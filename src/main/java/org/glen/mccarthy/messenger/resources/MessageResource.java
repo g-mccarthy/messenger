@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.glen.mccarthy.messenger.model.Message;
@@ -24,7 +25,13 @@ public class MessageResource {
 	MessageService service = new MessageService();
 
 	@GET
-	public List<Message> getMessages(){
+	public List<Message> getMessages(@QueryParam("year")int year, 
+									@QueryParam("start")int start,
+									@QueryParam("size")int size){
+		if(year > 0)
+			return service.getAllMessagesForYear(year);
+		if(start >= 0 && size >= 0)
+			return service.getAllMessagesPaginated(start, size);
 		return service.getAllMessages();
 	}
 	
