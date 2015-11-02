@@ -1,6 +1,7 @@
 package org.glen.mccarthy.messenger.resources;
 
 
+import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -13,7 +14,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.glen.mccarthy.messenger.model.Message;
 import org.glen.mccarthy.messenger.resources.beans.MessageFilterBean;
@@ -42,8 +47,13 @@ public class MessageResource {
 	}
 	
 	@POST
-	public Message addMessage(Message message){
-		return service.addMessage(message);
+	public Response addMessage(Message message, @Context UriInfo uriInfo){
+		Message newMessage = service.addMessage(message);
+		String messageId = String.valueOf(message.getId());
+		URI uri  = uriInfo.getAbsolutePathBuilder().path(messageId).build();
+		return Response.created(uri)
+				.entity(newMessage)
+				.build();
 	}
 	
 	@PUT
