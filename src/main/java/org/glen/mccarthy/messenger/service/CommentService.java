@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.glen.mccarthy.messenger.database.DataBaseClass;
 import org.glen.mccarthy.messenger.model.Comment;
+import org.glen.mccarthy.messenger.model.ErrorMessage;
 import org.glen.mccarthy.messenger.model.Message;
 
 public class CommentService {
@@ -18,8 +23,18 @@ public class CommentService {
 	}
 	
 	public Comment getComment(long messageId, long commentId){
+		ErrorMessage errorMessage = new ErrorMessage("Not found", 404, "google.com");
+		Response response = Response.status(Status.NOT_FOUND)
+				.entity(errorMessage)
+				.build();
+		Message message = messages.get(messageId);
+		if(null == message)
+			throw new WebApplicationException(response);
 		Map<Long, Comment> comments = messages.get(messageId).getComments();
-		return comments.get(commentId);
+		Comment comment = comments.get(commentId);
+		if(null == comment)
+			throw new WebApplicationException(response);
+		return comment;
 	}
 	
 	public Comment addComment(long messageId, Comment comment){
