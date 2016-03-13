@@ -7,6 +7,8 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -47,13 +49,14 @@ public class MessageResource {
 	@Path("/server")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getServer(){
-		String answer = null;
+		System.out.println("Getting info");
+		String answer;
 		try {
-			answer =  String.valueOf(Inet4Address.getLocalHost());
+			 answer =  String.valueOf(Inet4Address.getLocalHost());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			answer = "problem getting address";
+			 answer = "problem getting address";
 		}
 		return answer;
 	}
