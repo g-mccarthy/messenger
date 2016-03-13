@@ -1,7 +1,10 @@
 package org.glen.mccarthy.messenger.resources;
 
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -26,7 +29,7 @@ import org.glen.mccarthy.messenger.service.MessageService;
 
 @Path("/messages")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(value={MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
 public class MessageResource {
 	
 	MessageService service = new MessageService();
@@ -38,6 +41,21 @@ public class MessageResource {
 		if(bean.getStart() != null && bean.getSize() != null)
 			return service.getAllMessagesPaginated(bean.getStart(), bean.getSize());
 		return service.getAllMessages();
+	}
+	
+	@GET
+	@Path("/server")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getServer(){
+		String answer = null;
+		try {
+			answer =  String.valueOf(Inet4Address.getLocalHost());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			answer = "problem getting address";
+		}
+		return answer;
 	}
 	
 	@GET
